@@ -1,13 +1,18 @@
 <?php
-
 $host = getenv('IP');
 $username = getenv('C9_USER');
 $password = '';
 $dbname = 'world';
 
+$country = $_GET['country'];
+
 $conn = new PDO("mysql:host=$host;dbname=$dbname", $username, $password);
 
-$stmt = $conn->query("SELECT * FROM countries");
+if(htmlentities($_GET["all"]) === "true") {
+    $stmt = $conn->query("SELECT * FROM countries");
+} else {
+    $stmt = $conn->query("SELECT * FROM countries WHERE name = '$country'");
+}
 
 $results = $stmt->fetchAll(PDO::FETCH_ASSOC);
 
